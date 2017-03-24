@@ -20,4 +20,4 @@ $('#btnRadio').kbsElem();   //不会做初始化
 ```
 Demo
 --------------------------------------------------
-[example/checkbox.html]()
+[example/checkbox.html](http://ekoz.github.io/example/checkbox.html)

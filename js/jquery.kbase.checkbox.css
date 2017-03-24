@@ -1,0 +1,56 @@
+.kbs-checkbox-item,.kbs-radio-item {
+	position:relative;
+	display:inline-block;
+	margin-right:10px;
+	height:16px;
+}
+.kbs-checkbox-input,.kbs-radio-input{
+	position:absolute;
+	top:-9999px;
+	left:-9999px;
+}
+.kbs-checkbox-item .kbs-checkbox-label,.kbs-radio-item .kbs-radio-label{
+	display:inline-block;
+	cursor:pointer;
+}
+.kbs-checkbox-label .kbs-checkbox-text,.kbs-radio-label .kbs-radio-text{
+	float:left;
+	height:15px;
+	line-height:15px;
+	color:#444;
+	font-style: normal;
+}
+.kbs-checkbox-label .kbs-checkbox-icon{
+	float:left;
+	margin-right:5px;
+	background:url(radio_checkbox.png) no-repeat;
+	background-position: -83px -10px;
+	width:15px;
+	height:15px;
+}
+.kbs-checkbox-label.on .kbs-checkbox-icon{
+	background-position: -19px -10px;
+}
+.kbs-checkbox-label .kbs-checkbox-icon:hover{
+	background-position: -115px -10px;
+}
+.kbs-checkbox-label.on .kbs-checkbox-icon:hover{
+	background-position: -51px -10px;
+}
+.kbs-radio-label .kbs-radio-icon{
+	float:left;
+	margin-right:5px;
+	background: url(radio_checkbox.png) no-repeat;
+	background-position: -83px -41px;
+	width:15px;
+	height:15px;
+}
+.kbs-radio-label.on .kbs-radio-icon{
+	background-position:  -19px -41px;
+}
+.kbs-radio-label .kbs-radio-icon:hover{
+	background-position: -115px -41px;
+}
+.kbs-radio-label.on .kbs-radio-icon:hover{
+	background-position: -51px -41px;
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>checkbox-demo</title>
+        <script src="//cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+        <script src="../js/jquery.kbase.checkbox.js" type="text/javascript"></script>
+    </head>
+
+    <body>
+        <input name="opt" type="checkbox" value="1" alt="Apple" _kbs-resid="apple">苹果
+        <input name="opt" type="checkbox" value="2">葡萄
+        <input name="opt" type="checkbox" value="3" text="梨子">
+        <input name="opt" type="checkbox" value="4">
+        <button id="btnCheckbox">查看选中的结果</button>
+        <br>
+        <input type="radio" name="Fruit" value="1" alt="Apple" _kbs-resid="apple">苹果
+        <input type="radio" name="Fruit" value="2" text="葡萄">
+        <input type="radio" name="Fruit" value="3" text="梨子">
+        <button id="btnRadio">查看选中的结果</button>
+        <br>
+        <input type="checkbox" id="btnSelAll" value="">全选/全不选
+        <hr/>
+        <div id="resultPanel" style="font-size: 12px;color:#0090ff;"></div>
+
+
+        <script type="text/javascript">
+            $(':checkbox').kbsElem();
+            $(':radio').kbsElem();
+            $('#btnRadio').kbsElem();   //不会做初始化
+            $('#btnCheckbox').click(function(){
+                //console.log($(':checkbox:checked'));
+                $('#resultPanel').empty();
+                $('#resultPanel').append('checked number is ' + $(':checkbox:checked').length + '<br>');
+                $(':checkbox:checked').each(function(i, item){
+                    $('#resultPanel').append('[text]' + $(item).attr('text') + ' [value]' + $(item).val() + '<br>');
+                });
+            });
+            $('#btnRadio').click(function(){
+                //console.log($(':radio:checked'));
+                $('#resultPanel').empty();
+                $('#resultPanel').append('checked number is ' + $(':radio:checked').length + '<br>');
+                var item = $(':radio:checked');
+                if (item.length>0){
+                    $('#resultPanel').append('[text]' + $(item).attr('text') + ' [value]' +$(item).val() + '<br>');
+                }
+            });
+            $('#btnSelAll').click(function(){
+                if ($(this).attr('checked')){
+                    $('input[name="opt"]').attr('checked', 'checked');
+                }else{
+                    $('input[name="opt"]').removeAttr('checked');
+                }
+            });
+        </script>
+    </body>
+</html>

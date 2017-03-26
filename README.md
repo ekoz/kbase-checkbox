@@ -21,4 +21,5 @@ $('#btnRadio').kbsElem();   //不会做初始化
 Demo
 --------------------------------------------------
 [example/checkbox.html](http://ekoz.github.io/example/checkbox.html)
+
 ![Checkbox/Radio](https://github.com/ekoz/kbase-checkbox/blob/master/example/checkbox.gif?raw=true)

@@ -46,11 +46,7 @@
                 }
             });
             $('#btnSelAll').click(function(){
-                if ($(this).attr('checked')){
-                    $('input[name="opt"]').attr('checked', 'checked');
-                }else{
-                    $('input[name="opt"]').removeAttr('checked');
-                }
+                $('input[name="opt"]').kbsElem('checked');
             });
         </script>
     </body>

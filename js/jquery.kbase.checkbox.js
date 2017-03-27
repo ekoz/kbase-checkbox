@@ -44,15 +44,9 @@
         },
         run: function(){
             this.use('jquery.kbase.checkbox.css');
-            this.use('attrchange.js');
-            this.use('attrchange_ext.js');
-        }
-    }
-
-    $.fn.extend({
-        kbsElem: function(){
-            //TODO 是否考虑重复初始化的情况
-            var _thisArr = this;
+        },
+        init: function(elem){
+            var _thisArr = elem;
             $(_thisArr).each(function(i, _this){
                 var _type = $(_this).attr('type');
                 var _id = $(_this).attr('id')==undefined?'':$(_this).attr('id');
@@ -69,9 +63,7 @@
                 //将input元素的属性复制到label
                 var attrs = $(_this)[0].attributes;
                 $(attrs).each(function(i, item){
-                    //if (item.name!='type'){
-                        $(_kbsCheckboxItem).attr(item.name, item.value);
-                    //}
+                    $(_kbsCheckboxItem).attr(item.name, item.value);
                 });
                 var _text = '';
                 if ($(_this).attr('text')==null){
@@ -89,56 +81,19 @@
 
                 $(_this).after(_kbsCheckboxItem);
                 $(_this).attr('id', _id + '_' + Math.random()).addClass('kbs-' + _type + '-input');
-                $(_this).attrchange({
-                    trackValues: true,
-                    callback: function (event) {
-                        var properties = $(this).attrchange('getProperties');
-                        if (event.attributeName=='checked'){
-                            if (event.oldValue!=event.newValue && event.newValue==undefined){
-                                $(_kbsCheckboxLabel).removeClass('on');
-                                $(_kbsCheckboxItem).removeAttr('checked');
-                                if (builder.isLowerBrowser()){
-                                    $(_this).removeAttr('checked');
-                                }else{
-                                    $(_this).removeProp('checked');
-                                }
-                            }else{
-                                $(_kbsCheckboxLabel).addClass('on');
-                                $(_kbsCheckboxItem).attr('checked', 'checked');
-                                if (builder.isLowerBrowser()){
-                                    $(_this).attr('checked', true);
-                                }else{
-                                    $(_this).prop('checked', true);
-                                }
-                            }
-                        }
-                    }
-                });
 
                 if (_type=='checkbox'){
                     $(_kbsCheckboxItem).on({
-                        kbsCheckedChange: function(){
+                        click: function(){
                             if ($(_kbsCheckboxLabel).hasClass('on')){
                                 $(_kbsCheckboxLabel).removeClass('on');
                                 $(_kbsCheckboxItem).removeAttr('checked');
-                                if (builder.isLowerBrowser()){
-                                    $(_this).removeAttr('checked');
-                                }else{
-                                    $(_this).removeProp('checked');
-                                }
+                                $(_this).removeProp('checked');
                             }else{
                                 $(_kbsCheckboxLabel).addClass('on');
                                 $(_kbsCheckboxItem).attr('checked', 'checked');
-                                //低版本浏览器能识别prop，走进attchange方法，高版本浏览器不会走到attrchange方法中
-                                if (builder.isLowerBrowser()){
-                                    $(_this).attr('checked', true);
-                                }else{
-                                    $(_this).prop('checked', true);
-                                }
+                                $(_this).prop('checked', true);
                             }
-                        },
-                        click: function(){
-                            $(this).trigger('kbsCheckedChange');
                         }
                     })
                 }else{
@@ -151,7 +106,36 @@
                     });
                 }
             });
-            return _thisArr;
+        },
+        checked: function(elem){
+            $(elem).each(function(i, item){
+                $('span[name="' + $(item).attr('name') + '"][value="' + $(item).attr('value') + '"]').click();
+            });
+        },
+        debug: function(o){
+            if (window.console && window.console.log){
+                console.log(o);
+            }
+        },
+        fire: function(key, elem, opts){
+            if (typeof key == 'string') {
+                if (this[key]){
+                    return this[key](elem, opts);
+                }else{
+                    this.debug('function [' + key + '] undefined');
+                }
+            }
+        }
+    }
+
+    $.fn.extend({
+        kbsElem: function(key){
+            var _this = this;
+            if (key==undefined || typeof key!='string'){
+                builder.init(_this);
+            }else{
+                builder.fire(key, _this);
+            }
         }
     });
 

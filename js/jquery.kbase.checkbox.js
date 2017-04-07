@@ -46,11 +46,16 @@
             this.use('jquery.kbase.checkbox.css');
         },
         init: function(elem){
+            //TODO 是否考虑重复初始化的情况
             var _thisArr = elem;
             $(_thisArr).each(function(i, _this){
+                //必须要考虑重复初始化的情况 add by eko.zhan at 2017-04-01
+                //如果已经初始化 不再重复初始化
+                if ($(_this).hasClass('kbs-checkbox-input')) return;
+
                 var _type = $(_this).attr('type');
                 var _id = $(_this).attr('id')==undefined?'':$(_this).attr('id');
-                if (_type!='checkbox' && _type!='radio') return false;
+                if (_type!='checkbox' && _type!='radio') return;
                 var _kbsCheckboxItem = document.createElement('span');
                 _kbsCheckboxItem.setAttribute('class', 'kbs-' + _type + '-item');
                 var _kbsCheckboxLabel = document.createElement('label');
@@ -60,15 +65,25 @@
                 var _kbsCheckboxText = document.createElement('em');
                 _kbsCheckboxText.setAttribute('class', 'kbs-' + _type + '-text');
 
+
                 //将input元素的属性复制到label
                 var attrs = $(_this)[0].attributes;
                 $(attrs).each(function(i, item){
-                    $(_kbsCheckboxItem).attr(item.name, item.value);
+                    if (item.name!='class'){    //样式会造成干扰
+                        $(_kbsCheckboxItem).attr(item.name, item.value);
+                    }
                 });
                 var _text = '';
                 if ($(_this).attr('text')==null){
-                    _text = $(_this)[0].nextSibling?$.trim($(_this)[0].nextSibling.nodeValue):'';
-                    $($(_this)[0].nextSibling).remove();
+                    //_text = $(_this)[0].nextSibling?($(_this)[0].nextSibling.nodeValue?$.trim($(_this)[0].nextSibling.nodeValue):$(_this)[0].nextSibling):'';
+                    if ($(_this)[0].nextSibling){
+                        if ($(_this)[0].nextSibling.nodeValue){
+                            _text = $.trim($(_this)[0].nextSibling.nodeValue);
+                            $($(_this)[0].nextSibling).remove();
+                        }else{
+                            $($(_this)[0].nextSibling).css({'margin-left': '-10px'})
+                        }
+                    }
                     $(_this).attr('text', _text);
                 }else{
                     _text = $(_this).attr('text');
@@ -100,16 +115,38 @@
                     $(_kbsCheckboxItem).click(function(){
                         var _name = $(_this).attr('name');
                         $('input[name="' + _name + '"]').removeProp('checked');
-                        $('.kbs-' + _type + '-item[name="' + _name + '"] .on').removeClass('on');
+                        $('.kbs-' + _type + '-item[name="' + _name + '"]').children('.on').removeClass('on');
                         $(_kbsCheckboxLabel).addClass('on');
                         $(_this).prop('checked', true);
                     });
                 }
+
+                if ($(_this).prop('checked')){
+                    $(_kbsCheckboxItem).click();
+                }
             });
+            return _thisArr;
         },
+        //全部选中
         checked: function(elem){
             $(elem).each(function(i, item){
-                $('span[name="' + $(item).attr('name') + '"][value="' + $(item).attr('value') + '"]').click();
+                //$('span[name="' + $(item).attr('name') + '"][value="' + $(item).attr('value') + '"]').click();
+                if ($(item).attr('type')=='radio'){
+                    $('.kbs-radio-item[name="' + $(item).attr('name') + '"]').children('.on').removeClass('on');
+                }
+                var _kbsCheckboxItem = $('span[name="' + $(item).attr('name') + '"][value="' + $(item).attr('value') + '"]');
+                $(_kbsCheckboxItem).children('label').addClass('on');
+                $(_kbsCheckboxItem).attr('checked', 'checked');
+                $(item).prop('checked', true);
+            });
+        },
+        //全部不选
+        unchecked: function(elem){
+            $(elem).each(function(i, item){
+                var _kbsCheckboxItem = $('span[name="' + $(item).attr('name') + '"][value="' + $(item).attr('value') + '"]');
+                $(_kbsCheckboxItem).children('label').removeClass('on');
+                $(_kbsCheckboxItem).removeAttr('checked');
+                $(item).removeProp('checked');
             });
         },
         debug: function(o){

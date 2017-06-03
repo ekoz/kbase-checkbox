@@ -8,18 +8,28 @@
     </head>
 
     <body>
-        <input name="opt" type="checkbox" value="1" alt="Apple" _kbs-resid="apple">苹果
-        <input name="opt" type="checkbox" value="2">葡萄
-        <input name="opt" type="checkbox" value="3" text="梨子">
-        <input name="opt" type="checkbox" value="4">
+        <div id="checkboxPanel">
+            <input name="opt" type="checkbox" value="1" alt="Apple" _kbs-resid="apple">苹果
+            <input name="opt" type="checkbox" value="2">葡萄
+            <input name="opt" type="checkbox" value="3" text="梨子">
+            <input name="opt" type="checkbox" value="4" onclick="alert('Hello World!');">单击我弹出信息
+        </div>
+        <input type="radio" name="funcName" id="btnSelAll" value="1">全选
+        <input type="radio" name="funcName" id="btnUnselAll" value="2">全不选
+        <input type="button" id="btnReverse" value="反选">
+        <br>
+        <input type="button" id="btnCheck" value="选中"> 值为
+        <input type="text" id="optVal" size="10" style="border:0px;border-bottom:1px solid #F0F0F0;" title="多值用西文逗号分隔，可输入1,2,3,4"> 的项
+        <br>
         <button id="btnCheckbox">查看选中的结果</button>
-        <br>
-        <input type="radio" name="Fruit" value="1" alt="Apple" _kbs-resid="apple">苹果
-        <input type="radio" name="Fruit" value="2" text="葡萄">
-        <input type="radio" name="Fruit" value="3" text="梨子">
+        <hr/>
+        <div id="radioPanel">
+            <input type="radio" name="Fruit" value="1" alt="Apple" _kbs-resid="apple">苹果
+            <input type="radio" name="Fruit" value="2" text="葡萄">
+            <input type="radio" name="Fruit" value="3" text="梨子">
+        </div>
         <button id="btnRadio">查看选中的结果</button>
-        <br>
-        <input type="checkbox" id="btnSelAll" value="">全选/全不选
+
         <hr/>
         <div id="resultPanel" style="font-size: 12px;color:#0090ff;"></div>
 
@@ -28,6 +38,7 @@
             $(':checkbox').kbsElem();
             $(':radio').kbsElem();
             $('#btnRadio').kbsElem();   //不会做初始化
+            //Checkbox 查看选中结果
             $('#btnCheckbox').click(function(){
                 //console.log($(':checkbox:checked'));
                 $('#resultPanel').empty();
@@ -36,6 +47,7 @@
                     $('#resultPanel').append('[text]' + $(item).attr('text') + ' [value]' + $(item).val() + '<br>');
                 });
             });
+            //Radio 查看选中结果
             $('#btnRadio').click(function(){
                 //console.log($(':radio:checked'));
                 $('#resultPanel').empty();
@@ -45,8 +57,23 @@
                     $('#resultPanel').append('[text]' + $(item).attr('text') + ' [value]' +$(item).val() + '<br>');
                 }
             });
+            //全选
             $('#btnSelAll').click(function(){
                 $('input[name="opt"]').kbsElem('checked');
+            });
+            //全不选
+            $('#btnUnselAll').click(function(){
+                $('input[name="opt"]').kbsElem('unchecked');
+            });
+            //反选
+            $('#btnReverse').click(function(){
+                $('input[name="opt"]').kbsElem('reverse');
+            });
+            //选中
+            $('#btnCheck').click(function(){
+                $('#btnUnselAll').click();
+                var val = $('#optVal').val();
+                $('input[name="opt"]').kbsElem('checked', val);
             });
         </script>
     </body>

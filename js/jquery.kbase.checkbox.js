@@ -64,6 +64,8 @@
                 _kbsCheckboxIcon.setAttribute('class', 'kbs-' + _type + '-icon');
                 var _kbsCheckboxText = document.createElement('em');
                 _kbsCheckboxText.setAttribute('class', 'kbs-' + _type + '-text');
+                var _kbsCheckboxClear = document.createElement('span');
+                _kbsCheckboxClear.setAttribute('style', 'float:none;clear:both;');
 
 
                 //将input元素的属性复制到label
@@ -92,6 +94,7 @@
                 _kbsCheckboxText.innerText = _text;
                 _kbsCheckboxLabel.appendChild(_kbsCheckboxIcon);
                 _kbsCheckboxLabel.appendChild(_kbsCheckboxText);
+                _kbsCheckboxLabel.appendChild(_kbsCheckboxClear);
                 _kbsCheckboxItem.appendChild(_kbsCheckboxLabel)
 
                 $(_this).after(_kbsCheckboxItem);
@@ -127,8 +130,44 @@
             });
             return _thisArr;
         },
+        //选中指定的项
+        checked: function(elem, opts){
+            if (opts==null){
+                this.checkAll(elem);
+            }else{
+                var idArr = opts.split(',');
+                $(idArr).each(function(i, id){
+                    var item = $('span[value="' + id + '"]');
+                    if ($(item).attr('type')=='radio'){
+                        $('.kbs-radio-item[name="' + $(item).attr('name') + '"]').children('.on').removeClass('on');
+                    }
+                    var _kbsCheckboxItem = $('span[name="' + $(item).attr('name') + '"][value="' + $(item).attr('value') + '"]');
+                    $(_kbsCheckboxItem).children('label').addClass('on');
+                    $(_kbsCheckboxItem).attr('checked', 'checked');
+                    $('input[name="' + $(item).attr('name') + '"][value="' + $(item).attr('value') + '"]').prop('checked', true);
+                });
+            }
+        },
+        //不选中指定的项
+        unchecked: function(elem, opts){
+            if (opts==null){
+                this.uncheckAll(elem);
+            }else{
+                var idArr = opts.split(',');
+                $(idArr).each(function(i, id){
+                    var item = $('span[value="' + id + '"]');
+                    if ($(item).attr('type')=='radio'){
+                        $('.kbs-radio-item[name="' + $(item).attr('name') + '"]').children('.on').removeClass('on');
+                    }
+                    var _kbsCheckboxItem = $('span[name="' + $(item).attr('name') + '"][value="' + $(item).attr('value') + '"]');
+                    $(_kbsCheckboxItem).children('label').removeClass('on');
+                    $(_kbsCheckboxItem).removeAttr('checked');
+                    $('input[name="' + $(item).attr('name') + '"][value="' + $(item).attr('value') + '"]').removeProp('checked');
+                });
+            }
+        },
         //全部选中
-        checked: function(elem){
+        checkAll: function(elem){
             $(elem).each(function(i, item){
                 //$('span[name="' + $(item).attr('name') + '"][value="' + $(item).attr('value') + '"]').click();
                 if ($(item).attr('type')=='radio'){
@@ -141,12 +180,24 @@
             });
         },
         //全部不选
-        unchecked: function(elem){
+        uncheckAll: function(elem){
             $(elem).each(function(i, item){
                 var _kbsCheckboxItem = $('span[name="' + $(item).attr('name') + '"][value="' + $(item).attr('value') + '"]');
                 $(_kbsCheckboxItem).children('label').removeClass('on');
                 $(_kbsCheckboxItem).removeAttr('checked');
                 $(item).removeProp('checked');
+            });
+        },
+        //反选
+        reverse: function(elem){
+            var _this = this;
+            $(elem).each(function(i, item){
+                var _kbsCheckboxItem = $('span[name="' + $(item).attr('name') + '"][value="' + $(item).attr('value') + '"]');
+                if ($(item).prop('checked')==true){
+                    _this.unchecked(elem, $(item).attr('value'));
+                }else{
+                    _this.checked(elem, $(item).attr('value'));
+                }
             });
         },
         debug: function(o){
@@ -166,12 +217,17 @@
     }
 
     $.fn.extend({
-        kbsElem: function(key){
+        kbsElem: function(key, opts){
             var _this = this;
             if (key==undefined || typeof key!='string'){
                 builder.init(_this);
             }else{
-                builder.fire(key, _this);
+                //判断控件是否初始化，如果未初始化，先初始化控件
+                var item = $('span[name="' + $(_this).attr('name') + '"][value="' + $(_this).attr('value') + '"]');
+                if (item.length==0){
+                    builder.init(_this);
+                }
+                builder.fire(key, _this, opts);
             }
         }
     });

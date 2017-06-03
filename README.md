@@ -26,6 +26,6 @@ Checkbox/Radio 插件
 Demo
 --------------------------------------------------
 
-[example/checkbox.html](http://ekoz.github.io/example/checkbox.html)
+[example/checkbox.html](https://ekoz.github.io/kbase-checkbox/example/checkbox.html)
 
 ![Checkbox/Radio](https://github.com/ekoz/kbase-checkbox/blob/master/example/checkbox.gif?raw=true)

@@ -51,8 +51,8 @@
             $('#btnRadio').click(function(){
                 //console.log($(':radio:checked'));
                 $('#resultPanel').empty();
-                $('#resultPanel').append('checked number is ' + $(':radio:checked').length + '<br>');
-                var item = $(':radio:checked');
+                $('#resultPanel').append('checked number is ' + $('[name="Fruit"]:checked').length + '<br>');
+                var item = $('[name="Fruit"]:checked');
                 if (item.length>0){
                     $('#resultPanel').append('[text]' + $(item).attr('text') + ' [value]' +$(item).val() + '<br>');
                 }

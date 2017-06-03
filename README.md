@@ -1,6 +1,6 @@
 Checkbox/Radio 插件
 =================================================
-    用于自定义checkbox/radio样式，支持IE8+，chrome，firefox
+用于自定义checkbox/radio样式，支持IE8+，chrome，firefox [![GitHub release](https://img.shields.io/github/release/ekoz/kbase-checkbox.svg)](https://github.com/ekoz/kbase-checkbox/releases)
 
 引入
 -------------------------------------------------

@@ -28,4 +28,4 @@ Demo
 
 [example/checkbox.html](https://ekoz.github.io/kbase-checkbox/example/checkbox.html)
 
-![Checkbox/Radio](https://github.com/ekoz/kbase-checkbox/blob/master/example/checkbox.gif?raw=true)
+![Checkbox/Radio](https://ekoz.github.io/kbase-checkbox/example/checkbox.gif?raw=true)

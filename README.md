@@ -2,6 +2,8 @@ Checkbox/Radio 插件
 =================================================
     用于自定义checkbox/radio样式，支持IE8+，chrome，firefox
 
+[![GitHub release](https://img.shields.io/github/release/ekoz/kbase-checkbox.svg)](https://github.com/ekoz/kbase-checkbox/releases)
+
 引入
 -------------------------------------------------
 该插件依赖于 [jquery](http://jquery.com/)
@@ -29,6 +31,9 @@ Checkbox/Radio 插件
 	$('input[name="opt"]').kbsElem('unchecked', 'Orange');
 	//反选
 	$('input[name="opt"]').kbsElem('reverse');
+	//获取选中的值
+	$('input[name="opt"]:checked').val();
+
 	
 * 注意，input元素必须有name和value属性
 
